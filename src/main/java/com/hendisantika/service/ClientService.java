@@ -48,4 +48,9 @@ public class ClientService {
         return clientRepository.fetchByIdWithInvoice(id);
     }
 
+    public void delete(Long id) {
+        //clientDao.delete(id);
+        clientRepository.deleteById(id);    //Spring Boot 2
+    }
+
 }
