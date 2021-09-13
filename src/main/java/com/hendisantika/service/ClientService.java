@@ -34,4 +34,9 @@ public class ClientService {
     public List<Client> findAll() {
         return (List<Client>) clientRepository.findAll();
     }
+
+    @Transactional
+    public void save(Client client) {
+        clientRepository.save(client);
+    }
 }
