@@ -36,4 +36,10 @@ public class ClientRepository {
             em.persist(client);
         }
     }
+
+    public void delete(Long id) {
+        if (id != null && id > 0) {
+            em.remove(findOne(id));
+        }
+    }
 }
