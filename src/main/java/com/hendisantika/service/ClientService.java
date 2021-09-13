@@ -44,4 +44,8 @@ public class ClientService {
         return clientRepository.findById(id).orElse(null);    //Spring Boot 2
     }
 
+    public Client fetchByIdWithInvoice(Long id) {
+        return clientRepository.fetchByIdWithInvoice(id);
+    }
+
 }
