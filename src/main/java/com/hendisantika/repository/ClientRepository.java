@@ -1,11 +1,8 @@
 package com.hendisantika.repository;
 
 import com.hendisantika.model.Client;
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,32 +11,18 @@ import java.util.List;
  * Email: hendisantika@gmail.com
  * Telegram : @hendisantika34
  * Date: 14/09/21
- * Time: 06.44
+ * Time: 06.46
  */
-@Repository
-public class ClientRepository {
-    @PersistenceContext
-    private EntityManager em;
 
-    public Client findOne(Long id) {
-        return em.find(Client.class, id);
-    }
+/*
+ * Extending from CrudRepository (Model, PK Type) we can
+ * save us implementing the typical CRUD methods.
+ * This way we don't need to implement the class
+ * We can extend from PagingAndSortingRepository to make it easier
+ * the implementation of a paging system
+ */
+public interface ClientRepository extends PagingAndSortingRepository<Client, Long> {
 
-    public List<Client> findAll() {
-        return em.createQuery("from Client").getResultList();
-    }
-
-    public void save(Client client) {
-        if (client.getId() != null && client.getId() > 0) {
-            em.merge(client);
-        } else {
-            em.persist(client);
-        }
-    }
-
-    public void delete(Long id) {
-        if (id != null && id > 0) {
-            em.remove(findOne(id));
-        }
-    }
+    @Query("select c from Client c left join fetch c.invoices i where c.id=?1")
+    Client fetchByIdWithInvoice(Long id);
 }
