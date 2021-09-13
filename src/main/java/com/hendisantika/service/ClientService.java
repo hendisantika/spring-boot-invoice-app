@@ -69,4 +69,8 @@ public class ClientService {
         invoiceRepository.save(invoice);
     }
 
+    public Product findProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
 }
