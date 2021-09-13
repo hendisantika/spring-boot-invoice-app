@@ -1,6 +1,7 @@
 package com.hendisantika.service;
 
 import com.hendisantika.model.Client;
+import com.hendisantika.model.Invoice;
 import com.hendisantika.model.Product;
 import com.hendisantika.repository.ClientRepository;
 import com.hendisantika.repository.InvoiceRepository;
@@ -62,6 +63,10 @@ public class ClientService {
 
     public List<Product> findByName(String search) {
         return productRepository.findByNameLikeIgnoreCase("%" + search + "%");
+    }
+
+    public void saveInvoice(Invoice invoice) {
+        invoiceRepository.save(invoice);
     }
 
 }
