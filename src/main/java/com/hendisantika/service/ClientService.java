@@ -81,4 +81,8 @@ public class ClientService {
         invoiceRepository.deleteById(id);
     }
 
+    public Invoice fetchByIdWithClientWithInvoiceLineWithProduct(Long id) {
+        return invoiceRepository.fetchByIdWithClientWithInvoiceLineWithProduct(id);
+    }
+
 }
