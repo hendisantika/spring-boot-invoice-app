@@ -5,6 +5,8 @@ import com.hendisantika.repository.ClientRepository;
 import com.hendisantika.repository.InvoiceRepository;
 import com.hendisantika.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +53,10 @@ public class ClientService {
     public void delete(Long id) {
         //clientDao.delete(id);
         clientRepository.deleteById(id);    //Spring Boot 2
+    }
+
+    public Page<Client> findAll(Pageable page) {
+        return clientRepository.findAll(page);
     }
 
 }
