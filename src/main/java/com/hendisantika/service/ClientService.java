@@ -1,6 +1,7 @@
 package com.hendisantika.service;
 
 import com.hendisantika.model.Client;
+import com.hendisantika.model.Product;
 import com.hendisantika.repository.ClientRepository;
 import com.hendisantika.repository.InvoiceRepository;
 import com.hendisantika.repository.ProductRepository;
@@ -57,6 +58,10 @@ public class ClientService {
 
     public Page<Client> findAll(Pageable page) {
         return clientRepository.findAll(page);
+    }
+
+    public List<Product> findByName(String search) {
+        return productRepository.findByNameLikeIgnoreCase("%" + search + "%");
     }
 
 }
