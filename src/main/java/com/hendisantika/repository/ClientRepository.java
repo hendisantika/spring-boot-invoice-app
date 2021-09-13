@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,5 +23,9 @@ public class ClientRepository {
 
     public Client findOne(Long id) {
         return em.find(Client.class, id);
+    }
+
+    public List<Client> findAll() {
+        return em.createQuery("from Client").getResultList();
     }
 }
