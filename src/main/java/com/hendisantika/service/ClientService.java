@@ -77,4 +77,8 @@ public class ClientService {
         return invoiceRepository.findById(id).orElse(null);
     }
 
+    public void deleteInvoice(Long id) {
+        invoiceRepository.deleteById(id);
+    }
+
 }
