@@ -35,8 +35,13 @@ public class ClientService {
         return (List<Client>) clientRepository.findAll();
     }
 
-    @Transactional
     public void save(Client client) {
         clientRepository.save(client);
     }
+
+    public Client findOne(Long id) {
+        //return clientDao.findOne(id); //Spring Boot 1.5.10
+        return clientRepository.findById(id).orElse(null);    //Spring Boot 2
+    }
+
 }
