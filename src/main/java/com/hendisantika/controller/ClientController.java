@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -148,6 +149,27 @@ public class ClientController {
         model.put("title", "Client form");
         model.put("client", client);
         return "/form";
+    }
+
+    //@Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //The @PreAuthorize annotation is the same as @Secured, only it allows more control
+    @RequestMapping(value = "/form/{id}")
+    public String edit(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+        if (id > 0) {
+            Client client = clientService.findOne(id);
+            if (client != null) {
+                model.put("title", "Edit customer");
+                model.put("client", client);
+                return "/form";
+            } else {
+                flash.addFlashAttribute("error", "The ID is not valid");
+                return "redirect:/clients";
+            }
+        } else {
+            flash.addFlashAttribute("error", "The ID has to be positive");
+            return "redirect:/clients";
+        }
     }
 
 }
