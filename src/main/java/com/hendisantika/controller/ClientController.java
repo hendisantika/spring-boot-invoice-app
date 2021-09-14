@@ -1,5 +1,6 @@
 package com.hendisantika.controller;
 
+import com.hendisantika.model.Client;
 import com.hendisantika.service.ClientService;
 import com.hendisantika.service.UploadFileService;
 import org.slf4j.Logger;
@@ -10,12 +11,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.MalformedURLException;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -63,6 +67,22 @@ public class ClientController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    //@Secured("ROLE_USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping(value = "/ver/{id}")
+    public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+        //Client client = clientService.findOne(id);
+        Client client = clientService.fetchByIdWithInvoice(id);
+        if (client == null) {
+            flash.addFlashAttribute("error", "The client does not exist in the database");
+            return "redirect:/clients";
+        } else {
+            model.put("client", client);
+            model.put("title", "Customer details - " + client.getName());
+        }
+        return "/ver";
     }
 
 }
