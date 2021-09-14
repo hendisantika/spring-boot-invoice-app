@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+
+<header th:replace="/layout/layout :: header"></header>
+
+<div class="container py-4">
+	<div class="card bg-light text-dark">
+		<div class="card-header" th:text="${title}"></div>
+		<div class="card-body">
+			<h4 class="card-title"></h4>
+			<a class="btn btn-secondary btn-xs"
+			   th:href="@{'/view/' + ${invoice.client.id}}" th:text="'&laquo; return'"></a>
+			<form method="post" th:action="@{/invoice/form/}"
+				  th:object="${invoice}">
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label" th:text="'Client'"></label>
+					<div class="col-sm-6">
+						<input class="form-control"
+							   disabled='disabled'
+							   th:value="${invoice.client.name + ' ' + invoice.client.surname}" type="text"></input>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label" th:text="'Description'"></label>
+					<div class="col-sm-6">
+						<input class="form-control" th:errorclass="'form-control is-invalid'" th:field="*{description}"
+							   type="text"></input>
+						<div class="invalid-feedback"
+							 th:errors="*{description}"
+							 th:if="${#fields.hasErrors('description')}"></div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label" th:text="'Observations'"></label>
+					<div class="col-sm-6">
+						<textarea class="form-control" th:field="*{information}"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label" th:text="'Find product'"></label>
+					<div class="col-sm-6">
+						<input class="form-control" id="search_product" name="search_product"
+							   type="text"></input>
+					</div>
+				</div>
+
+				<!-- TEMPLATE OF EACH PRODUCT LINE OF THE INVOICE -->
+				<table th:replace="invoices/template-items :: invoice-items"></table>
+				<table class="table table-sm table-striped table-hover"
+					   id="loadProductItems">
+					<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Price</th>
+						<th>Cantidad</th>
+						<th>Importe</th>
+						<th>Delete</th>
+					</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+
+				<h5>
+					Total: <span class="badge badge-light" id="total">0</span>€
+				</h5>
+
+				<div class="form-group row">
+					<div class="col-sm-6">
+						<input class="btn btn-success" th:value="${title}" type="submit"></input>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<footer th:replace="/layout/layout :: footer"></footer>
+
+<script th:replace="invoices/js/autocomplete-products :: javascript"></script>
+</body>
+</html>
