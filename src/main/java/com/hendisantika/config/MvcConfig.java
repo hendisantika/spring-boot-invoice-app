@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
@@ -57,4 +58,14 @@ public class MvcConfig implements WebMvcConfigurer {
         localeResolver.setDefaultLocale(new Locale("es", "ID"));
         return localeResolver;
     }
+
+    //This method is responsible for intercepting, hence its name, every time
+    //change the language
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");    //Name that we want for the language parameter in the url
+        return interceptor;
+    }
+
 }
