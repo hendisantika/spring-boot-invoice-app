@@ -53,6 +53,10 @@ public class Invoice implements Serializable {
         createdAt = new Date();
     }
 
+    public void addLine(InvoiceLine line) {
+        this.lines.add(line);
+    }
+
     public Double getTotal() {
         Double total = 0.0;
         for (InvoiceLine line : lines) {
