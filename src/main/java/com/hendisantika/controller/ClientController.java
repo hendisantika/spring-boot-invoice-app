@@ -141,4 +141,13 @@ public class ClientController {
         return "/list";
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "/form")
+    public String create(Map<String, Object> model) {
+        Client client = new Client();
+        model.put("title", "Client form");
+        model.put("client", client);
+        return "/form";
+    }
+
 }
