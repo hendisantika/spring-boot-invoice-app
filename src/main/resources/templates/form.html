@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+<header th:replace="/layout/layout :: header"></header>
+
+<div class="container py-4">
+	<div class="card bg-dark text-white">
+		<div class="card-header" th:text="${title}"></div>
+		<div class="card-body">
+			<div th:object="${client}" th:remove="tag">
+				<ul class="alert alert-danger" role="alert"
+					th:if="${#fields.hasErrors('*')}">
+					<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+				</ul>
+			</div>
+
+			<form enctype="multipart/form-data" method="post" th:action="@{/form}" th:object="${client}">
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Name</label>
+					<div class="col-sm-6">
+						<input class="form-control" th:errorclass="'form-control alert-danger'" th:field="*{name}"
+							   type="text"/> <small
+							class="form-text text-danger" th:errors="*{name}"
+							th:if="${#fields.hasErrors('name')}"></small>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Lastname</label>
+					<div class="col-sm-6">
+						<input class="form-control" th:errorclass="'form-control alert-danger'" th:field="*{surname}"
+							   type="text"/> <small
+							class="form-text text-danger" th:errors="*{surname}"
+							th:if="${#fields.hasErrors('surname')}"></small>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Email</label>
+					<div class="col-sm-6">
+						<input class="form-control" th:errorclass="'form-control alert-danger'" th:field="*{email}"
+							   type="text"/> <small
+							class="form-text text-danger" th:errors="*{email}"
+							th:if="${#fields.hasErrors('email')}"></small>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Date</label>
+					<div class="col-sm-6">
+						<input class="form-control" th:errorclass="'form-control alert-danger'" th:field="*{createdAt}"
+							   type="text"/> <small
+							class="form-text text-danger"
+							th:errors="*{createdAt}" th:if="${#fields.hasErrors('createdAt')}"></small>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label" for="file">Foto</label>
+					<div class="col-sm-6">
+						<input class="form-control" id="file" name="file" type="file"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-6">
+						<input class="btn btn-success" type="submit"
+							   value="Create customer"/>
+					</div>
+				</div>
+				<!-- For when we don't use @SessionAttributes <input type="hidden" th:field="*{id}" /> -->
+			</form>
+		</div>
+	</div>
+
+
+</div>
+
+<footer th:replace="/layout/layout :: footer"></footer>
+</body>
+</html>
