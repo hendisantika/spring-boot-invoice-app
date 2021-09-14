@@ -95,4 +95,19 @@ public class InvoiceController {
         flash.addFlashAttribute("success", "Invoice created successfully");
         return "redirect:/ver/" + invoice.getClient().getId();
     }
+
+    @GetMapping("/ver/{id}")
+    public String ver(@PathVariable(value = "id") Long id,
+                      Model model,
+                      RedirectAttributes flash) {
+        //Invoice invoice = clientService.findInvoiceById(id);
+        Invoice invoice = clientService.fetchByIdWithClientWithInvoiceLineWithProduct(id);
+        if (invoice == null) {
+            flash.addFlashAttribute("error", "The invoice does not exist");
+            return "redirect:/clients";
+        }
+        model.addAttribute("invoice", invoice);
+        model.addAttribute("title", "Invoice: ".concat(invoice.getDescription()));
+        return "/invoices/view";
+    }
 }
