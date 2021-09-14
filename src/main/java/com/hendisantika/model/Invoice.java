@@ -52,4 +52,13 @@ public class Invoice implements Serializable {
     public void prePersist() {
         createdAt = new Date();
     }
+
+    public Double getTotal() {
+        Double total = 0.0;
+        for (InvoiceLine line : lines) {
+            total += line.calculatePrice();
+        }
+        return total;
+    }
+
 }

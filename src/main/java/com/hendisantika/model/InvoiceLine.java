@@ -43,4 +43,8 @@ public class InvoiceLine implements Serializable {
      */
     //@JoinColumn(name="product_id")
     private Product product;
+
+    public Double calculatePrice() {
+        return quantity.doubleValue() * product.getPrice();
+    }
 }
