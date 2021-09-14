@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container">
+		<div class="card bg-danger text-white my-4">
+			<div class="card-header">Error: Access Denied</div>
+			<div class="card-body">
+				<h5 class="card-title">
+					<!-- The username can be obtained from both the
+global variable # httpServletRequest.remoteUser
+						as from authentication.name -->
+					We're sorry <span th:text="${#httpServletRequest.remoteUser}"></span>
+					, you do not have permission to view this resource
+				</h5>
+				<a class="btn btn-outline-light" th:href="@{/}">&laquo; volver</a>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="/layout/layout :: footer"></footer>
+
+</body>
+</html>
