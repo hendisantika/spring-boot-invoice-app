@@ -92,7 +92,7 @@ public class ClientController {
 
     //@Secured("ROLE_USER")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping(value = "/ver/{id}")
+    @GetMapping(value = "/view/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         //Client client = clientService.findOne(id);
         Client client = clientService.fetchByIdWithInvoice(id);
@@ -103,7 +103,7 @@ public class ClientController {
             model.put("client", client);
             model.put("title", "Customer details - " + client.getName());
         }
-        return "/ver";
+        return "view";
     }
 
     @GetMapping(value = {"/clients", "/"})
@@ -121,7 +121,7 @@ public class ClientController {
          * This allows us to use it in any class
          */
 
-        //Comprobamos si el usuario tiene el rol necesario para este recurso
+        //We check if the user has the necessary role for this resource
         if (hasRole("ROLE_ADMIN")) {
             log.info("The user has the necessary role to access this resource");
         } else {
@@ -131,8 +131,8 @@ public class ClientController {
 		/*SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper
 		(request, "ROLE_");
 		if(securityContext.isUserInRole("ADMIN")) {
-			log.info("Usando SecurityContextHolderAwareRequestWrapper: El usuario tiene el role necesario para acceder
-			 a éste recurso");
+			log.info("Using SecurityContextHolderAwareRequestWrapper: The user has the necessary role to access
+to this resource");
 		}else {
 			log.info("Using SecurityContextHolderAwareRequestWrapper: The user does NOT have the necessary role to
 			access this resource");
@@ -141,7 +141,7 @@ public class ClientController {
         if (request.isUserInRole("ROLE_ADMIN")) {
             log.info("Using HttpServletRequest: The user has the necessary role to access this resource");
         } else {
-            log.info("Usando HttpServletRequest: El usuario NO tiene el role necesario para acceder a éste recurso");
+            log.info("Using HttpServletRequest: The user does NOT have the necessary role to access this resource");
         }
 
         Pageable pageRequest = PageRequest.of(page, 3);
