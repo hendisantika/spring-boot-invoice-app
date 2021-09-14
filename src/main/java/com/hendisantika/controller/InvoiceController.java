@@ -110,4 +110,19 @@ public class InvoiceController {
         model.addAttribute("title", "Invoice: ".concat(invoice.getDescription()));
         return "/invoices/view";
     }
+
+    @GetMapping("/remove/{id}")
+    public String remove(
+            @PathVariable(value = "id") Long id,
+            RedirectAttributes flash) {
+        Invoice invoice = clientService.findInvoiceById(id);
+        if (invoice != null) {
+            clientService.deleteInvoice(id);
+            flash.addFlashAttribute("success", "Invoice deleted successfully");
+            return "redirect:/ver/" + invoice.getClient().getId();
+        } else {
+            flash.addAttribute("error", "The invoice does not exist");
+            return "redirect:/clients";
+        }
+    }
 }
