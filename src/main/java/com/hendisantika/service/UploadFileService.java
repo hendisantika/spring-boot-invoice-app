@@ -69,4 +69,8 @@ public class UploadFileService {
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(Paths.get(UPLOADS_FOLDER).toFile());
     }
+
+    public void init() throws IOException {
+        Files.createDirectories(Paths.get(UPLOADS_FOLDER));
+    }
 }
