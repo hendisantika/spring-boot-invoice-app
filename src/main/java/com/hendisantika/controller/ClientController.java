@@ -17,6 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
@@ -238,5 +243,26 @@ public class ClientController {
             }
         }
         return "redirect:/clients";
+    }
+
+    /*
+     * This method allows you to have more control over the roles of the user, being able to access each of them
+     */
+    private boolean hasRole(String role) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context != null) {
+            Authentication auth = context.getAuthentication();
+            if (auth != null) {
+                Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+				/*for(GrantedAuthority authority : authorities) {
+					if(role.equals(authority.getAuthority())) {
+						return true;
+					}
+				}*/
+                return authorities.contains(new SimpleGrantedAuthority(role));    //This form is more concise than
+                // using the for
+            }
+        }
+        return false;
     }
 }
