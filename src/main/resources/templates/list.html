@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+<header th:replace="/layout/layout :: header"></header>
+
+<div class="container py-4">
+	<div class="card bg-light">
+		<div class="card-header" th:text="${title}"></div>
+		<div class="card-body">
+			<div class="card-title">
+				<a class="btn btn-primary btn-xs my-2" sec:authorize="hasRole('ROLE_ADMIN')"
+				   th:href="@{/form}">Create customer </a>
+				<a class="btn btn-success btn-xs my-2" th:href="@{'/clientes'(format=csv)}">Export CSV</a>
+			</div>
+			<table class="table table-striped table-bordered">
+				<thead class="thead-inverse">
+				<tr>
+					<th sec:authorize="hasRole('ROLE_USER')">Id</th>
+					<th th:text="#{text.client.name}"></th>
+					<th th:text="#{text.client.surname}"></th>
+					<th th:text="#{text.client.email}"></th>
+					<th th:text="#{text.client.createdAt}"></th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{text.list.billing}">Check in</th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{text.list.edit}">Edit</th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')" th:text="#{text.list.delete}">Remove</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="client : ${clients}">
+					<td sec:authorize="hasRole('ROLE_USER')"><a
+							class="btn btn-primary btn-xs" th:href="@{/ver/} + ${client.id}"
+							th:text="${client.id}"></a></td>
+					<td th:text="${client.name}"></td>
+					<td th:text="${client.surname}"></td>
+					<td th:text="${client.email}"></td>
+					<td th:text="${client.createdAt}"></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+							class="btn btn-success btn-xs"
+							th:href="@{/factura/form/} + ${client.id}"><i class="material-icons">euro_symbol</i></a>
+					</td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+							class="btn btn-primary btn-xs"
+							th:href="@{/form/} + ${client.id}"> <i class="material-icons">edit</i></a></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+							class="btn btn-danger btn-xs"
+							onclick="return confirm('Sure?')"
+							th:href="@{/eliminar/} + ${client.id}"> <i
+							class="material-icons">delete</i></a></td>
+				</tr>
+				</tbody>
+			</table>
+			<nav th:replace="/paginator-nav :: paginator"></nav>
+		</div>
+	</div>
+</div>
+
+<footer th:replace="/layout/layout :: footer"></footer>
+</body>
+</html>
