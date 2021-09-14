@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/layout :: head">
+</head>
+<body>
+
+<header th:replace="/layout/layout :: header"></header>
+
+<div class="container py-4">
+	<div class="card bg-light">
+		<div class="card-header" th:text="${title}"></div>
+		<div class="card-body">
+
+			<a class="btn btn-primary btn-xs"
+			   sec:authorize="hasRole('ROLE_ADMIN')"
+			   th:href="@{/factura/form/} + ${client.id}" th:text="'Create Invoice'"></a> <img
+				class="img-thumbnail rounded float-left"
+				style="max-width: 25%"
+				th:alt="@{/uploads/${client.name}}"
+				th:if="${#strings.length(client.photo) > 0}" th:src="@{'/uploads/' + ${client.photo}}"></img>
+
+			<ul class="list-group my-4">
+				<li class="list-group-item active" th:text="${client.name}"></li>
+				<li class="list-group-item" th:text="${client.surname}"></li>
+				<li class="list-group-item" th:text="${client.email}"></li>
+				<li class="list-group-item" th:text="${client.createdAt}"></li>
+			</ul>
+
+			<div class="alert alert-info my-4"
+				 th:if="${#lists.isEmpty(client.invoices)}"
+				 th:text="'There are no invoices assigned to the customer ' + ${client.name}"></div>
+			<table class="table table-bordered table-striped my-4"
+				   th:if="${not #lists.isEmpty(client.invoices)}">
+				<thead class="thead-dark">
+				<tr>
+					<th>Folio</th>
+					<th>Description</th>
+					<th>Date</th>
+					<th>Total</th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')">View</th>
+					<th sec:authorize="hasRole('ROLE_ADMIN')">Remove</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="invoice : ${client.invoices}">
+					<td th:text="${invoice.id}"></td>
+					<td th:text="${invoice.description}"></td>
+					<td th:text="${invoice.createdAt}"></td>
+					<td th:text="${invoice.total}"></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+							class="btn btn-xs btn-primary"
+							th:href="@{'/invoice/view/' + ${invoice.id}}"><i class="material-icons">search</i></a></td>
+					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+							class="btn btn-xs btn-danger"
+							onclick="return confirm('Are you sure you want to delete the invoice?')"
+							th:href="@{'/invoice/remove/' + ${invoice.id}}"><i
+							class="material-icons">delete</i></a></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<footer th:replace="/layout/layout :: footer"></footer>
+
+</body>
+</html>
