@@ -7,6 +7,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -47,5 +48,15 @@ public class UploadFileService {
         //Copy photo to path within the project
         Files.copy(file.getInputStream(), _rootPath);
         return photoName;
+    }
+
+    public boolean delete(String filename) {
+        //We erase the image of the client
+        Path rootPath = getPath(filename);
+        File file = rootPath.toFile();
+        if (file.exists() && file.canRead()) {
+            return file.delete();
+        }
+        return false;
     }
 }
