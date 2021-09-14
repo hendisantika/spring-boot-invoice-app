@@ -5,9 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,5 +38,14 @@ public class UploadFileService {
             throw new RuntimeException("Error: Image cannot be loaded: " + photoPath);
         }
         return resource;
+    }
+
+    public String copy(MultipartFile file) throws IOException {
+        String photoName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path _rootPath = getPath(photoName);
+        log.info("_rootPath: " + _rootPath);
+        //Copy photo to path within the project
+        Files.copy(file.getInputStream(), _rootPath);
+        return photoName;
     }
 }
