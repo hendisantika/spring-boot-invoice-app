@@ -19,14 +19,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Locale;
 import java.util.Map;
@@ -170,6 +176,54 @@ public class ClientController {
             flash.addFlashAttribute("error", "The ID has to be positive");
             return "redirect:/clients";
         }
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping(value = "/form")
+    public String save(@Valid Client client, BindingResult result, Model model,
+                       @RequestParam("file") MultipartFile photo, RedirectAttributes flash,
+                       SessionStatus sessionStatus) {
+        if (result.hasErrors()) {
+            model.addAttribute("title", "Client form");
+            return "/form";
+        }
+        if (!photo.isEmpty()) {
+            /*
+             * The following two lines could be used to
+             * save the uploaded images to a folder inside
+             * of the project structure, but this is
+             * advised against. It is best to undock it and save
+             * the files in an external folder.
+             */
+            //Path resources = Paths.get("src/main/resources/static/uploads");
+            //String rootPath = resources.toFile().getAbsolutePath();
+            //String rootPath = "C://Temp//uploads";
+
+            //We add a "unique id" to the image name
+            //to make sure they are not repeated
+
+            //If the user already had a photo, we delete the old one
+            if (client.getId() != null && client.getId() > 0
+                    && client.getPhoto() != null
+                    && client.getPhoto().length() > 0) {
+                uploadFileService.delete(client.getPhoto());
+            }
+            String uniqueFileName = null;
+            try {
+                uniqueFileName = uploadFileService.copy(photo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            flash.addFlashAttribute(
+                    "info",
+                    "Image uploaded successfully (" + uniqueFileName + ")");
+            client.setPhoto(uniqueFileName);
+        }
+        String message = client.getId() != null ? "Customer edited successfully " : " Customer created successfully";
+        clientService.save(client);
+        sessionStatus.setComplete();
+        flash.addFlashAttribute("success", message);
+        return "redirect:clients";
     }
 
 }
