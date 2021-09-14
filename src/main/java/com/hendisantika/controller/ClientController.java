@@ -226,4 +226,17 @@ public class ClientController {
         return "redirect:clients";
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "/remove/{id}")
+    public String remove(@PathVariable(value = "id") Long id, RedirectAttributes flash, Map<String, Object> model) {
+        if (id > 0) {
+            Client client = clientService.findOne(id);
+            clientService.delete(id);
+            flash.addFlashAttribute("success", "Successfully removed customer");
+            if (uploadFileService.delete(client.getPhoto())) {
+                flash.addFlashAttribute("info", "Foto " + client.getPhoto() + " successfully removed");
+            }
+        }
+        return "redirect:/clients";
+    }
 }
