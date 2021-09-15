@@ -95,7 +95,7 @@
 	<footer th:fragment="footer" class="container">
 		<hr />
 		<p sec:authorize="isAuthenticated()">
-			Usuario: <span sec:authentication="name"></span> | Roles: <span
+			User: <span sec:authentication="name"></span> | Roles: <span
 				sec:authentication="principal.authorities"></span>
 		</p>
 		<p>
