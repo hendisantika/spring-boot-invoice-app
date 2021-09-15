@@ -58,24 +58,17 @@
 						</div></li>
 				</ul>
 				<ul class="navbar-nav navbar-right mx-4">
-					<!-- SELECTOR DE IDIOMA CON DROPDOWN -->
+					<!-- LANGUAGE SELECTOR WITH DROPDOWN -->
 					<li class="dropdown show">
 						<a class="btn btn-outline-primary dropdown-toggle" href="#"
 							role="button" id="dropdownLanguage" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false" th:text="#{text.language.language}">
 						</a>
 						<div class="dropdown-menu" aria-labelledby="dropdownLanguage">
-							<a th:href="@{/locale(lang=es_ID)}" class="dropdown-item" th:text="#{text.language.id}"></a>
+							<a class="dropdown-item" th:href="@{/locale(lang=id_ID)}" th:text="#{text.language.id}"></a>
 							<a th:href="@{/locale(lang=en_US)}" class="dropdown-item" th:text="#{text.language.en}"></a>
 						</div>
 					</li>
-					<!-- SELECTOR DE IDIOMA CON BOTONES -->
-					<!-- <li class="nav-item mx-1">
-						<a href="?lang=es_ES" class="btn btn-outline-success">ES</a>
-					</li>
-					<li class="nav-item mx-1">
-						<a href="?lang=en_US" class="btn btn-outline-success">EN</a>
-					</li>  -->
 				</ul>
 			</div>
 		</nav>

@@ -13,7 +13,7 @@
 			<h4 class="card-title"></h4>
 			<a class="btn btn-secondary btn-xs"
 			   th:href="@{'/view/' + ${invoice.client.id}}" th:text="'&laquo; return'"></a>
-			<form method="post" th:action="@{/invoice/form/}"
+			<form method="post" th:action="@{/invoices/form/}"
 				  th:object="${invoice}">
 				<div class="form-group row">
 					<label class="col-sm-3 col-form-label" th:text="'Client'"></label>
@@ -53,10 +53,10 @@
 					   id="loadProductItems">
 					<thead>
 					<tr>
-						<th>Nombre</th>
+						<th>Name</th>
 						<th>Price</th>
-						<th>Cantidad</th>
-						<th>Importe</th>
+						<th>Quantity</th>
+						<th>Import</th>
 						<th>Delete</th>
 					</tr>
 					</thead>

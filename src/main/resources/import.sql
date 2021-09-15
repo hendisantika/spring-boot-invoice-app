@@ -1,62 +1,69 @@
 /* CLIENTS */
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (1, 'Antonio', 'Lopez Guzmán', 'alg@gmail.com', '2012-01-29', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (2, 'Laura', 'Martin Bonilla', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (3, 'María', 'Guzmán García', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (4, 'Miguel', 'de los Ángeles Gutierrez', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (5, 'Pablo', 'Escobar Arroba', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (6, 'Raúl', 'Jimenez de la Serna', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (7, 'Ainara', 'Villa Hoz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (8, 'Segismundo', 'Madrid Cid', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (9, 'Prudencio', 'Delgado Díaz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (10, 'Tomás', 'Lobo Bueno', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (11, 'Antonio', 'Lopez Guzmán', 'alg@gmail.com', '2012-01-29', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (12, 'Laura', 'Martin Bonilla', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (13, 'María', 'Guzmán García', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (14, 'Miguel', 'de los Ángeles Gutierrez', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (15, 'Pablo', 'Escobar Arroba', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (16, 'Raúl', 'Jimenez de la Serna', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (17, 'Ainara', 'Villa Hoz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (18, 'Segismundo', 'Madrid Cid', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (19, 'Prudencio', 'Delgado Díaz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (20, 'Tomás', 'Lobo Bueno', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (21, 'Tomás', 'Lobo Bueno', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (22, 'Laura', 'Martin Bonilla', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (23, 'María', 'Guzmán García', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (24, 'Miguel', 'de los Ángeles Gutierrez', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (25, 'Pablo', 'Escobar Arroba', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (26, 'Raúl', 'Jimenez de la Serna', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (27, 'Ainara', 'Villa Hoz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (28, 'Segismundo', 'Madrid Cid', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (29, 'Prudencio', 'Delgado Díaz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (30, 'Tomás', 'Lobo Bueno', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (31, 'Antonio', 'Lopez Guzmán', 'alg@gmail.com', '2012-01-29', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (32, 'Laura', 'Martin Bonilla', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (33, 'María', 'Guzmán García', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (34, 'Miguel', 'de los Ángeles Gutierrez', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (35, 'Pablo', 'Escobar Arroba', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (36, 'Raúl', 'Jimenez de la Serna', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (37, 'Ainara', 'Villa Hoz', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (38, 'Segismundo', 'Madrid Cid', 'lmb@gmail.com', '2015-06-2', '');
-INSERT INTO clients(id, name, surname, email, created_at, photo) VALUES (39, 'Prudencio', 'Delgado Díaz', 'lmb@gmail.com', '2015-06-2', '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (1, 'Uzumaki', 'Naruto', 'user1@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (2, 'Uchiha', 'Sasuke', 'user2@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (3, 'Haruno', 'Sakura', 'user3@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (4, 'Hatake', 'Kakashi', 'user4@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (5, 'Hyuuga', 'Neji', 'user5@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (6, 'Rock', 'Lee', 'user6@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (7, 'Ten-ten', 'China', 'user7@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (8, 'Aburame', 'Shino', 'user8@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (9, 'Hyuuga', 'Hinata', 'user9@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (10, 'Inuzuka', 'Kiba', 'user10@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (11, 'Naara', 'Shikamaru', 'user11@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (12, 'Yamanaka', 'Ino', 'user12@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (13, 'Akimichi', 'Choji', 'user13@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (14, 'Asuma', 'Sarutobi', 'user14@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (15, 'Yuuha', 'Kurenai', 'user15@gmail.com', NOW(), '');
+INSERT INTO clients(id, name, surname, email, created_at, photo)
+VALUES (16, 'Sarutobi', 'Hiruzen', 'user16@gmail.com', NOW(), '');
 
 
 /* PRODUCTS */
-INSERT INTO products(name, price, created_at) VALUES ('Televisor Panasonic LCD', 159, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Cámara Sony DSC-W320', 329, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Smartphone Samsung Galaxy S9', 899, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Smartphone iPhone X', 1299, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Smartphone LG G5', 450, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Impresora HP MF1522-NF', 90, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Bicicleta Shimano N12', 465, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Servidor HP Proliant', 349, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Ratón Death Adder', 29, NOW());
-INSERT INTO products(name, price, created_at) VALUES ('Cuaderno A4', 2, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Television Panasonic LCD', 159, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Camera Sony DSC-W320', 329, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Smartphone Samsung Galaxy S13', 899, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Smartphone iPhone 12X', 1299, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Smartphone LG G5', 450, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Xiaomi Note 12', 90, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Xiaomi Redmi 10', 465, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Vivo Reno 5', 349, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Oppo F11', 29, NOW());
+INSERT INTO products(name, price, created_at)
+VALUES ('Huawei', 2, NOW());
 
 /* INVOICES */
-INSERT INTO invoices(description, information, client_id, created_at) VALUES ('Equipos de oficina', null, 1, NOW());
-INSERT INTO invoice_lines(quantity, invoice_id, product_id) VALUES (1, 1, 1);
-INSERT INTO invoice_lines(quantity, invoice_id, product_id) VALUES (2, 1, 4);
-INSERT INTO invoice_lines(quantity, invoice_id, product_id) VALUES (3, 1, 8);
+INSERT INTO invoices(description, information, client_id, created_at)
+VALUES ('Office equipments', NULL, 1, NOW());
+INSERT INTO invoice_lines(quantity, invoice_id, product_id)
+VALUES (1, 1, 1);
+INSERT INTO invoice_lines(quantity, invoice_id, product_id)
+VALUES (2, 1, 4);
+INSERT INTO invoice_lines(quantity, invoice_id, product_id)
+VALUES (3, 1, 8);
 INSERT INTO invoice_lines(quantity, invoice_id, product_id) VALUES (5, 1, 6);
 
 /* USERS */

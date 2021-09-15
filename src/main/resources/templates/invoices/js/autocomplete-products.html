@@ -8,17 +8,17 @@
 		$("#search_product").autocomplete({
 			source: function (req, res) {
 				$.ajax({
-					url: '/invoice/load-product/' + req.term,
-					dataType: "json",
-					data: {
-						term: req.term
-					},
-					success: function (data) {
-						res($.map(data, function (item) {
-							return {
-								value: item.id,
-								label: item.name,
-								price: item.price
+                    url: '/invoices/load-product/' + req.term,
+                    dataType: "json",
+                    data: {
+                        term: req.term
+                    },
+                    success: function (data) {
+                        res($.map(data, function (item) {
+                            return {
+                                value: item.id,
+                                label: item.name,
+                                price: item.price
 							};
 						}));
 					},

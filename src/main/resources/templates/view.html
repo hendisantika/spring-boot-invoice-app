@@ -50,11 +50,11 @@
 					<td th:text="${invoice.total}"></td>
 					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
 							class="btn btn-xs btn-primary"
-							th:href="@{'/invoice/view/' + ${invoice.id}}"><i class="material-icons">search</i></a></td>
+							th:href="@{'/invoices/view/' + ${invoice.id}}"><i class="material-icons">search</i></a></td>
 					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
 							class="btn btn-xs btn-danger"
 							onclick="return confirm('Are you sure you want to delete the invoice?')"
-							th:href="@{'/invoice/remove/' + ${invoice.id}}"><i
+							th:href="@{'/invoices/remove/' + ${invoice.id}}"><i
 							class="material-icons">delete</i></a></td>
 				</tr>
 				</tbody>

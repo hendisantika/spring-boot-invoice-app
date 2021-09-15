@@ -58,4 +58,9 @@ public class Client implements Serializable {
     public Client() {
         invoices = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return name + " " + surname;
+    }
 }

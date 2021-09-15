@@ -34,7 +34,7 @@ import java.util.Map;
  * Time: 05.55
  */
 @Controller
-@RequestMapping("/invoice")
+@RequestMapping("/invoices")
 @Secured("ROLE_ADMIN")
 @SessionAttributes("invoice")
 public class InvoiceController {
@@ -93,10 +93,10 @@ public class InvoiceController {
         clientService.saveInvoice(invoice);
         status.setComplete();
         flash.addFlashAttribute("success", "Invoice created successfully");
-        return "redirect:/ver/" + invoice.getClient().getId();
+        return "redirect:/view/" + invoice.getClient().getId();
     }
 
-    @GetMapping("/ver/{id}")
+    @GetMapping("/view/{id}")
     public String ver(@PathVariable(value = "id") Long id,
                       Model model,
                       RedirectAttributes flash) {
@@ -119,7 +119,7 @@ public class InvoiceController {
         if (invoice != null) {
             clientService.deleteInvoice(id);
             flash.addFlashAttribute("success", "Invoice deleted successfully");
-            return "redirect:/ver/" + invoice.getClient().getId();
+            return "redirect:/view/" + invoice.getClient().getId();
         } else {
             flash.addAttribute("error", "The invoice does not exist");
             return "redirect:/clients";

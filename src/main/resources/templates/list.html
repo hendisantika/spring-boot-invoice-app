@@ -31,7 +31,7 @@
 				<tbody>
 				<tr th:each="client : ${clients}">
 					<td sec:authorize="hasRole('ROLE_USER')"><a
-							class="btn btn-primary btn-xs" th:href="@{/ver/} + ${client.id}"
+							class="btn btn-primary btn-xs" th:href="@{/view/} + ${client.id}"
 							th:text="${client.id}"></a></td>
 					<td th:text="${client.name}"></td>
 					<td th:text="${client.surname}"></td>
@@ -39,7 +39,7 @@
 					<td th:text="${client.createdAt}"></td>
 					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
 							class="btn btn-success btn-xs"
-							th:href="@{/factura/form/} + ${client.id}"><i class="material-icons">euro_symbol</i></a>
+							th:href="@{/invoices/form/} + ${client.id}"><i class="material-icons">euro_symbol</i></a>
 					</td>
 					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
 							class="btn btn-primary btn-xs"
@@ -47,7 +47,7 @@
 					<td sec:authorize="hasRole('ROLE_ADMIN')"><a
 							class="btn btn-danger btn-xs"
 							onclick="return confirm('Sure?')"
-							th:href="@{/eliminar/} + ${client.id}"> <i
+							th:href="@{/remove/} + ${client.id}"> <i
 							class="material-icons">delete</i></a></td>
 				</tr>
 				</tbody>
