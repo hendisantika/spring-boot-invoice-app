@@ -14,7 +14,7 @@
 
 			<a class="btn btn-primary btn-xs"
 			   sec:authorize="hasRole('ROLE_ADMIN')"
-			   th:href="@{/factura/form/} + ${client.id}" th:text="'Create Invoice'"></a> <img
+			   th:href="@{/invoices/form/} + ${client.id}" th:text="'Create Invoice'"></a> <img
 				class="img-thumbnail rounded float-left"
 				style="max-width: 25%"
 				th:alt="@{/uploads/${client.name}}"

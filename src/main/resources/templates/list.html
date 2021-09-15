@@ -13,7 +13,7 @@
 			<div class="card-title">
 				<a class="btn btn-primary btn-xs my-2" sec:authorize="hasRole('ROLE_ADMIN')"
 				   th:href="@{/form}">Create customer </a>
-				<a class="btn btn-success btn-xs my-2" th:href="@{'/clientes'(format=csv)}">Export CSV</a>
+				<a class="btn btn-success btn-xs my-2" th:href="@{'/clients'(format=csv)}">Export CSV</a>
 			</div>
 			<table class="table table-striped table-bordered">
 				<thead class="thead-inverse">

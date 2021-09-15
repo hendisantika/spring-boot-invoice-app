@@ -77,7 +77,7 @@ public class ClientController {
     //this method is called
     @Secured("ROLE_USER")
     @GetMapping(value = "/uploads/{filename:.+}")
-    public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
+    public ResponseEntity<Resource> viewFoto(@PathVariable String filename) {
         Resource resource = null;
         try {
             resource = uploadFileService.load(filename);
