@@ -1,13 +1,12 @@
 package com.hendisantika.controller;
 
 import com.hendisantika.model.Client;
-import com.hendisantika.service.impl.ClientServiceImpl;
-import com.hendisantika.service.impl.UploadFileServiceImpl;
+import com.hendisantika.service.ClientService;
+import com.hendisantika.service.UploadFileService;
 import com.hendisantika.util.PageRender;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -25,11 +24,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -54,15 +60,15 @@ public class ClientController {
     //@Qualifier ("clientDao") If we have several implementations
     //of the interface, we indicate which one we want to use by giving its name
     //If we only have one, we use @Autowired
-    private final ClientServiceImpl clientServiceImpl;
+    private final ClientService clientService;
 
-    private final UploadFileServiceImpl uploadFileServiceImpl;
+    private final UploadFileService uploadFileService;
 
     private final MessageSource messageSource;
 
-    public ClientController(ClientServiceImpl clientServiceImpl, UploadFileServiceImpl uploadFileServiceImpl, MessageSource messageSource) {
-        this.clientServiceImpl = clientServiceImpl;
-        this.uploadFileServiceImpl = uploadFileServiceImpl;
+    public ClientController(ClientService clientService, UploadFileService uploadFileService, MessageSource messageSource) {
+        this.clientService = clientService;
+        this.uploadFileService = uploadFileService;
         this.messageSource = messageSource;
     }
 
@@ -77,7 +83,7 @@ public class ClientController {
     public ResponseEntity<Resource> viewFoto(@PathVariable String filename) {
         Resource resource = null;
         try {
-            resource = uploadFileServiceImpl.load(filename);
+            resource = uploadFileService.load(filename);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -90,9 +96,9 @@ public class ClientController {
     //@Secured("ROLE_USER")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/view/{id}")
-    public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+    public String ver(@PathVariable Long id, Map<String, Object> model, RedirectAttributes flash) {
         //Client client = clientService.findOne(id);
-        Client client = clientServiceImpl.fetchByIdWithInvoice(id);
+        Client client = clientService.fetchByIdWithInvoice(id);
         if (client == null) {
             flash.addFlashAttribute("error", "The client does not exist in the database");
             return "redirect:/clients";
@@ -104,7 +110,7 @@ public class ClientController {
     }
 
     @GetMapping(value = {"/clients", "/"})
-    public String lists(@RequestParam(name = "page", defaultValue = "0") int page,
+    public String lists(@RequestParam(defaultValue = "0") int page,
                         Model model,
                         Authentication authentication,
                         HttpServletRequest request,
@@ -142,7 +148,7 @@ to this resource");
         }
 
         Pageable pageRequest = PageRequest.of(page, 3);
-        Page<Client> clients = clientServiceImpl.findAll(pageRequest);
+        Page<Client> clients = clientService.findAll(pageRequest);
         PageRender<Client> render = new PageRender<>("/clients", clients);
         model.addAttribute("title", messageSource.getMessage("text.list.title", null, locale));
         model.addAttribute("clients", clients);
@@ -163,9 +169,9 @@ to this resource");
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     //The @PreAuthorize annotation is the same as @Secured, only it allows more control
     @RequestMapping(value = "/form/{id}")
-    public String edit(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+    public String edit(@PathVariable Long id, Map<String, Object> model, RedirectAttributes flash) {
         if (id > 0) {
-            Client client = clientServiceImpl.findOne(id);
+            Client client = clientService.findOne(id);
             if (client != null) {
                 model.put("title", "Edit customer");
                 model.put("client", client);
@@ -208,11 +214,11 @@ to this resource");
             if (client.getId() != null && client.getId() > 0
                     && client.getPhoto() != null
                     && client.getPhoto().length() > 0) {
-                uploadFileServiceImpl.delete(client.getPhoto());
+                uploadFileService.delete(client.getPhoto());
             }
             String uniqueFileName = null;
             try {
-                uniqueFileName = uploadFileServiceImpl.copy(photo);
+                uniqueFileName = uploadFileService.copy(photo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -222,7 +228,7 @@ to this resource");
             client.setPhoto(uniqueFileName);
         }
         String message = client.getId() != null ? "Customer edited successfully " : " Customer created successfully";
-        clientServiceImpl.save(client);
+        clientService.save(client);
         sessionStatus.setComplete();
         flash.addFlashAttribute("success", message);
         return "redirect:clients";
@@ -230,12 +236,12 @@ to this resource");
 
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/remove/{id}")
-    public String remove(@PathVariable(value = "id") Long id, RedirectAttributes flash, Map<String, Object> model) {
+    public String remove(@PathVariable Long id, RedirectAttributes flash, Map<String, Object> model) {
         if (id > 0) {
-            Client client = clientServiceImpl.findOne(id);
-            clientServiceImpl.delete(id);
+            Client client = clientService.findOne(id);
+            clientService.delete(id);
             flash.addFlashAttribute("success", "Successfully removed customer");
-            if (uploadFileServiceImpl.delete(client.getPhoto())) {
+            if (uploadFileService.delete(client.getPhoto())) {
                 flash.addFlashAttribute("info", "Foto " + client.getPhoto() + " successfully removed");
             }
         }

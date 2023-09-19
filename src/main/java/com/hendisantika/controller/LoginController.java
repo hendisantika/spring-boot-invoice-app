@@ -24,8 +24,8 @@ public class LoginController {
     public String login(Model model,
                         Principal principal,
                         RedirectAttributes flash,
-                        @RequestParam(value = "error", required = false) String error,
-                        @RequestParam(value = "logout", required = false) String logout) {    //the path / login as a
+                        @RequestParam(required = false) String error,
+                        @RequestParam(required = false) String logout) {    //the path / login as a
         // view of the login form
         if (principal != null) {    //User has already logged in
             flash.addFlashAttribute("info", "You have already logged in");

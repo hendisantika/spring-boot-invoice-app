@@ -22,7 +22,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * We can extend from PagingAndSortingRepository to make it easier
  * the implementation of a paging system
  */
-public interface ClientRepository extends JpaRepository<Client, Long>, PagingAndSortingRepository<Client, Long> {
+public interface ClientRepository extends PagingAndSortingRepository<Client, Long>, JpaRepository<Client, Long> {
 
     @Query("select c from Client c left join fetch c.invoices i where c.id=?1")
     Client fetchByIdWithInvoice(Long id);

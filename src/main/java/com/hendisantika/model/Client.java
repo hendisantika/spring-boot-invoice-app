@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +20,12 @@ import java.util.List;
  * Date: 14/09/21
  * Time: 06.42
  */
-@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "clients")
 public class Client implements Serializable {
@@ -54,13 +56,4 @@ public class Client implements Serializable {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Invoice> invoices;
-
-    public Client() {
-        invoices = new ArrayList<>();
-    }
-
-    @Override
-    public String toString() {
-        return name + " " + surname;
-    }
 }

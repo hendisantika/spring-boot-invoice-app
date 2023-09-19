@@ -1,18 +1,17 @@
 package com.hendisantika.config;
 
 import com.hendisantika.auth.handler.LoginSuccessHandler;
-import com.hendisantika.service.impl.JPAUserDetailsServiceImpl;
+import com.hendisantika.service.JPAUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.sql.DataSource;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,76 +23,77 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * Time: 05.34
  */
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig {
 
     private final LoginSuccessHandler successHandler;
 
-    private final JPAUserDetailsServiceImpl userDetailsService;
+    private final DataSource dataSource;
 
-    public SpringSecurityConfig(LoginSuccessHandler successHandler, JPAUserDetailsServiceImpl userDetailsService) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    private final JPAUserDetailsService userDetailsService;
+
+    public SpringSecurityConfig(LoginSuccessHandler successHandler, DataSource dataSource, BCryptPasswordEncoder passwordEncoder, JPAUserDetailsService userDetailsService) {
         this.successHandler = successHandler;
+        this.dataSource = dataSource;
+        this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        //Here we specify the roles required to access
+        //each route. The "long" way is to specify each path access here,
+        //but it can also be done directly in the controller, using
+        //the @Secured (role) annotation on each method
         http
-                //you can either disable this or
-                //put <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                //inside the login form
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/h2-console/**", "/css/**",
-                                "/js/**", "/img/**", "/clients", "/locale").permitAll()
-                        /***
-                         * Here we specify the roles required to access
-                         * each route. The "long" way is to specify each path access here,
-                         * but it can also be done directly in the controller, using
-                         * the @Secured (role) annotation on each method
-                         */
-//                        .requestMatchers("/ver/**").hasAnyRole("USER")
-//                        .requestMatchers("/uploads/**").hasAnyRole("USER")
-//                        .requestMatchers("/form/**").hasAnyRole("ADMIN")
-//                        .requestMatchers("/remove/**").hasAnyRole("ADMIN")
-//                        .requestMatchers("/invoice/**").hasAnyRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login") //enable this to go to your own custom login page
-                        .loginProcessingUrl("/login") //enable this to use login page provided by spring security
-                        .defaultSuccessUrl("/", true)
-                        .successHandler(successHandler)
-                        .failureUrl("/error_403")
-                )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/")
-                );
-
-        http.authenticationProvider(authenticationProvider());
+                .authorizeHttpRequests(a -> a
+                        .requestMatchers("/", "/h2-console/**",
+                                "/css/**", "/js/**", "/img/**",
+                                "/clients", "/locale").permitAll()
+                        //.antMatchers("/ver/**").hasAnyRole("USER")
+                        //.antMatchers("/uploads/**").hasAnyRole("USER")
+                        //.antMatchers("/form/**").hasAnyRole("ADMIN")
+                        //.antMatchers("/remove/**").hasAnyRole("ADMIN")
+                        //.antMatchers("/invoice/**").hasAnyRole("ADMIN")
+                        .anyRequest().authenticated())
+                .formLogin(login -> login.successHandler(successHandler)
+                .loginPage("/login").permitAll())  //to tell Spring which path to use
+                .logout(logout -> logout.permitAll())
+                .exceptionHandling(handling -> handling.accessDeniedPage("/error_403"));
 
         return http.build();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder build) throws Exception {
+        //This code allows to implement users "in memory"
+        //UserBuilder users = User.withDefaultPasswordEncoder(); //Spring Boot 1.5.10
+		/*PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder(); //Spring Boot 2
+		UserBuilder users = User.builder().passwordEncoder(encoder::encode);	//Spring Boot 2
+		build.inMemoryAuthentication()
+		.withUser(
+				users.username("admin")
+				.password("admin")
+				.roles("ADMIN", "USER"))
+		.withUser(
+				users.username("cristian")
+				.password("cristian")
+				.roles("USER"));*/
+
+        //This code allows to implement users with database through JDBC
+        //You have to indicate the queries to execute to login and obtain the user roles
+		/*build.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder)
+		.usersByUsernameQuery("SELECT USERNAME, PASSWORD, ENABLED FROM USERS WHERE USERNAME=?")
+		.authoritiesByUsernameQuery(
+				"SELECT U.USERNAME, A.AUTHORITY "
+						+ "FROM AUTHORITIES A INNER JOIN USERS U "
+						+ "ON (A.USER_ID = U.ID) "
+						+ "WHERE U.USERNAME=?");*/
+
+        //This code allows to implement users with database through JPA.
+        build.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 }

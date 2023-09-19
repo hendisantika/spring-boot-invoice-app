@@ -43,6 +43,14 @@ public class MvcConfig implements WebMvcConfigurer {
                 .setViewName("error_403");
     }
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        //We use the BCrypt algorithm, which is currently the most powerful
+        //since the result of the encryption is different for the same
+        //password
+        return new BCryptPasswordEncoder();
+    }
+
     //This method takes care of saving, in this case in the session (although
     //can be saved in cookies, etc) the "locale".
     @Bean

@@ -1,9 +1,7 @@
 package com.hendisantika.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,9 +15,12 @@ import java.util.List;
  * Date: 14/09/21
  * Time: 06.40
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "users")
 public class User implements Serializable {

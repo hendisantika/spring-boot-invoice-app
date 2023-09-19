@@ -32,7 +32,8 @@ public class PageRender<T> {
         this.totalPages = page.getTotalPages();
         this.currPage = page.getNumber() + 1;
 
-        int from, until;
+        int from;
+        int until;
         if (totalPages <= itemsPerPage) {
             from = 1;
             until = totalPages;

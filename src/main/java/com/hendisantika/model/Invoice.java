@@ -2,11 +2,9 @@ package com.hendisantika.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +17,12 @@ import java.util.List;
  * Date: 14/09/21
  * Time: 06.41
  */
-@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "invoices")
 public class Invoice implements Serializable {
@@ -50,10 +52,6 @@ public class Invoice implements Serializable {
     @PrePersist
     public void prePersist() {
         createdAt = new Date();
-    }
-
-    public Invoice() {
-        this.lines = new ArrayList<>();
     }
 
     public void addLine(InvoiceLine line) {

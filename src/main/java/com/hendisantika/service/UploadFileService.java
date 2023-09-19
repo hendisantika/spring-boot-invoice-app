@@ -1,4 +1,4 @@
-package com.hendisantika.service.impl;
+package com.hendisantika.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +26,8 @@ import java.util.UUID;
  * Time: 06.58
  */
 @Service
-public class UploadFileServiceImpl {
-    private final String UPLOADS_FOLDER = "uploads";
+public class UploadFileService {
+    private final String uploadsFolder = "uploads";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     public Resource load(String filename) throws MalformedURLException {
@@ -63,14 +63,14 @@ public class UploadFileServiceImpl {
     }
 
     public Path getPath(String filename) {
-        return Paths.get(UPLOADS_FOLDER).resolve(filename).toAbsolutePath();
+        return Paths.get(uploadsFolder).resolve(filename).toAbsolutePath();
     }
 
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(Paths.get(UPLOADS_FOLDER).toFile());
+        FileSystemUtils.deleteRecursively(Paths.get(uploadsFolder).toFile());
     }
 
     public void init() throws IOException {
-        Files.createDirectories(Paths.get(UPLOADS_FOLDER));
+        Files.createDirectories(Paths.get(uploadsFolder));
     }
 }
