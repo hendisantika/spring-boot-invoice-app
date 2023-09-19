@@ -1,4 +1,4 @@
-package com.hendisantika.service;
+package com.hendisantika.service.impl;
 
 import com.hendisantika.model.Role;
 import com.hendisantika.model.User;
@@ -27,7 +27,7 @@ import java.util.List;
  * Time: 07.01
  */
 @Service("jpaUserDetailsService")
-public class JPAUserDetailsService implements UserDetailsService {
+public class JPAUserDetailsServiceImpl implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 

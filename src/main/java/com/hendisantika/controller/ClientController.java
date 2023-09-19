@@ -1,12 +1,13 @@
 package com.hendisantika.controller;
 
 import com.hendisantika.model.Client;
-import com.hendisantika.service.ClientService;
-import com.hendisantika.service.UploadFileService;
+import com.hendisantika.service.impl.ClientServiceImpl;
+import com.hendisantika.service.impl.UploadFileServiceImpl;
 import com.hendisantika.util.PageRender;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -24,18 +25,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -60,14 +54,17 @@ public class ClientController {
     //@Qualifier ("clientDao") If we have several implementations
     //of the interface, we indicate which one we want to use by giving its name
     //If we only have one, we use @Autowired
-    @Autowired
-    private ClientService clientService;
+    private final ClientServiceImpl clientServiceImpl;
 
-    @Autowired
-    private UploadFileService uploadFileService;
+    private final UploadFileServiceImpl uploadFileServiceImpl;
 
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
+
+    public ClientController(ClientServiceImpl clientServiceImpl, UploadFileServiceImpl uploadFileServiceImpl, MessageSource messageSource) {
+        this.clientServiceImpl = clientServiceImpl;
+        this.uploadFileServiceImpl = uploadFileServiceImpl;
+        this.messageSource = messageSource;
+    }
 
     //Method for uploading images
     //We write the parameter {filename:. +} As a regular expression
@@ -80,7 +77,7 @@ public class ClientController {
     public ResponseEntity<Resource> viewFoto(@PathVariable String filename) {
         Resource resource = null;
         try {
-            resource = uploadFileService.load(filename);
+            resource = uploadFileServiceImpl.load(filename);
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -95,7 +92,7 @@ public class ClientController {
     @GetMapping(value = "/view/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         //Client client = clientService.findOne(id);
-        Client client = clientService.fetchByIdWithInvoice(id);
+        Client client = clientServiceImpl.fetchByIdWithInvoice(id);
         if (client == null) {
             flash.addFlashAttribute("error", "The client does not exist in the database");
             return "redirect:/clients";
@@ -145,7 +142,7 @@ to this resource");
         }
 
         Pageable pageRequest = PageRequest.of(page, 3);
-        Page<Client> clients = clientService.findAll(pageRequest);
+        Page<Client> clients = clientServiceImpl.findAll(pageRequest);
         PageRender<Client> render = new PageRender<>("/clients", clients);
         model.addAttribute("title", messageSource.getMessage("text.list.title", null, locale));
         model.addAttribute("clients", clients);
@@ -168,7 +165,7 @@ to this resource");
     @RequestMapping(value = "/form/{id}")
     public String edit(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
         if (id > 0) {
-            Client client = clientService.findOne(id);
+            Client client = clientServiceImpl.findOne(id);
             if (client != null) {
                 model.put("title", "Edit customer");
                 model.put("client", client);
@@ -211,11 +208,11 @@ to this resource");
             if (client.getId() != null && client.getId() > 0
                     && client.getPhoto() != null
                     && client.getPhoto().length() > 0) {
-                uploadFileService.delete(client.getPhoto());
+                uploadFileServiceImpl.delete(client.getPhoto());
             }
             String uniqueFileName = null;
             try {
-                uniqueFileName = uploadFileService.copy(photo);
+                uniqueFileName = uploadFileServiceImpl.copy(photo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -225,7 +222,7 @@ to this resource");
             client.setPhoto(uniqueFileName);
         }
         String message = client.getId() != null ? "Customer edited successfully " : " Customer created successfully";
-        clientService.save(client);
+        clientServiceImpl.save(client);
         sessionStatus.setComplete();
         flash.addFlashAttribute("success", message);
         return "redirect:clients";
@@ -235,10 +232,10 @@ to this resource");
     @GetMapping(value = "/remove/{id}")
     public String remove(@PathVariable(value = "id") Long id, RedirectAttributes flash, Map<String, Object> model) {
         if (id > 0) {
-            Client client = clientService.findOne(id);
-            clientService.delete(id);
+            Client client = clientServiceImpl.findOne(id);
+            clientServiceImpl.delete(id);
             flash.addFlashAttribute("success", "Successfully removed customer");
-            if (uploadFileService.delete(client.getPhoto())) {
+            if (uploadFileServiceImpl.delete(client.getPhoto())) {
                 flash.addFlashAttribute("info", "Foto " + client.getPhoto() + " successfully removed");
             }
         }

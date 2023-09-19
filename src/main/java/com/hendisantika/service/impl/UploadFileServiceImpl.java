@@ -1,4 +1,4 @@
-package com.hendisantika.service;
+package com.hendisantika.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import java.util.UUID;
  * Time: 06.58
  */
 @Service
-public class UploadFileService {
+public class UploadFileServiceImpl {
     private final String UPLOADS_FOLDER = "uploads";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
