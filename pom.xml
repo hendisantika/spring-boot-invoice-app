@@ -64,18 +64,18 @@
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
-            <version>1.3.26</version>
+            <version>1.3.30</version>
         </dependency>
         <!-- EXPORT TO XLSX -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>4.1.2</version>
+            <version>5.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.1.2</version>
+            <version>5.2.2</version>
         </dependency>
         <!-- EXPORT TO CSV -->
         <dependency>
@@ -127,13 +127,13 @@
                 <configuration>
                     <activeRecipes>
                         <recipe>org.openrewrite.java.migrate.UpgradeToJava17</recipe>
+                        <recipe>org.openrewrite.java.logging.slf4j.Log4jToSlf4j</recipe>
+                        <recipe>org.openrewrite.java.logging.slf4j.ParameterizedLogging</recipe>
                         <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_1</recipe>
                         <recipe>org.openrewrite.java.spring.boot3.SpringBootProperties_3_1</recipe>
                         <recipe>org.openrewrite.java.spring.boot3.MigrateThymeleafDependencies</recipe>
                         <recipe>org.openrewrite.java.spring.data.UpgradeSpringData_2_5</recipe>
                         <recipe>org.openrewrite.java.security.JavaSecurityBestPractices</recipe>
-                        <recipe>org.openrewrite.java.security.spring.CsrfProtection</recipe>
-                        <recipe>org.openrewrite.java.security.spring.PreventClickjacking</recipe>
                         <recipe>org.openrewrite.java.spring.security6.UpgradeSpringSecurity_6_1</recipe>
                         <recipe>org.openrewrite.java.spring.boot2.SpringBoot2JUnit4to5Migration</recipe>
                         <recipe>org.openrewrite.java.testing.assertj.Assertj</recipe>
@@ -154,6 +154,11 @@
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-java-security</artifactId>
+                        <version>2.0.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-logging-frameworks</artifactId>
                         <version>2.0.4</version>
                     </dependency>
                 </dependencies>

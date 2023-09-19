@@ -3,86 +3,33 @@ package com.hendisantika.service;
 import com.hendisantika.model.Client;
 import com.hendisantika.model.Invoice;
 import com.hendisantika.model.Product;
-import com.hendisantika.repository.ClientRepository;
-import com.hendisantika.repository.InvoiceRepository;
-import com.hendisantika.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * Project : spring-boot-invoice-app
- * User: hendisantika
- * Email: hendisantika@gmail.com
- * Telegram : @hendisantika34
- * Date: 14/09/21
- * Time: 06.51
- */
-@Service
-@Transactional
-public class ClientService {
-    @Autowired
-    private ClientRepository clientRepository;
+public interface ClientService {
+    List<Client> findAll();
 
-    @Autowired
-    private ProductRepository productRepository;
+    void save(Client client);
 
-    @Autowired
-    private InvoiceRepository invoiceRepository;
+    Client findOne(Long id);
 
-    public List<Client> findAll() {
-        return (List<Client>) clientRepository.findAll();
-    }
+    Client fetchByIdWithInvoice(Long id);
 
-    public void save(Client client) {
-        clientRepository.save(client);
-    }
+    void delete(Long id);
 
-    public Client findOne(Long id) {
-        //return clientDao.findOne(id); //Spring Boot 1.5.10
-        return clientRepository.findById(id).orElse(null);    //Spring Boot 2
-    }
+    Page<Client> findAll(Pageable page);
 
-    public Client fetchByIdWithInvoice(Long id) {
-        return clientRepository.fetchByIdWithInvoice(id);
-    }
+    List<Product> findByName(String search);
 
-    public void delete(Long id) {
-        //clientDao.delete(id);
-        clientRepository.deleteById(id);    //Spring Boot 2
-    }
+    void saveInvoice(Invoice invoice);
 
-    public Page<Client> findAll(Pageable page) {
-        return clientRepository.findAll(page);
-    }
+    Product findProductById(Long id);
 
-    public List<Product> findByName(String search) {
-        return productRepository.findByNameLikeIgnoreCase("%" + search + "%");
-    }
+    Invoice findInvoiceById(Long id);
 
-    public void saveInvoice(Invoice invoice) {
-        invoiceRepository.save(invoice);
-    }
+    void deleteInvoice(Long id);
 
-    public Product findProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
-    }
-
-    public Invoice findInvoiceById(Long id) {
-        return invoiceRepository.findById(id).orElse(null);
-    }
-
-    public void deleteInvoice(Long id) {
-        invoiceRepository.deleteById(id);
-    }
-
-    public Invoice fetchByIdWithClientWithInvoiceLineWithProduct(Long id) {
-        return invoiceRepository.fetchByIdWithClientWithInvoiceLineWithProduct(id);
-    }
-
+    Invoice fetchByIdWithClientWithInvoiceLineWithProduct(Long id);
 }

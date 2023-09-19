@@ -1,15 +1,17 @@
 package com.hendisantika.config;
 
 import com.hendisantika.auth.handler.LoginSuccessHandler;
-import com.hendisantika.service.JPAUserDetailsService;
+import com.hendisantika.service.impl.JPAUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -24,7 +26,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
-public class SpringSecurityConfig {
+public class SecurityConfig {
 
     private final LoginSuccessHandler successHandler;
 
@@ -32,9 +34,9 @@ public class SpringSecurityConfig {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    private final JPAUserDetailsService userDetailsService;
+    private final JPAUserDetailsServiceImpl userDetailsService;
 
-    public SpringSecurityConfig(LoginSuccessHandler successHandler, DataSource dataSource, BCryptPasswordEncoder passwordEncoder, JPAUserDetailsService userDetailsService) {
+    public SecurityConfig(LoginSuccessHandler successHandler, DataSource dataSource, BCryptPasswordEncoder passwordEncoder, JPAUserDetailsServiceImpl userDetailsService) {
         this.successHandler = successHandler;
         this.dataSource = dataSource;
         this.passwordEncoder = passwordEncoder;
@@ -43,6 +45,7 @@ public class SpringSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
         //Here we specify the roles required to access
         //each route. The "long" way is to specify each path access here,
         //but it can also be done directly in the controller, using
@@ -60,7 +63,7 @@ public class SpringSecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(login -> login.successHandler(successHandler)
                 .loginPage("/login").permitAll())  //to tell Spring which path to use
-                .logout(logout -> logout.permitAll())
+                .logout(LogoutConfigurer::permitAll)
                 .exceptionHandling(handling -> handling.accessDeniedPage("/error_403"));
 
         return http.build();
