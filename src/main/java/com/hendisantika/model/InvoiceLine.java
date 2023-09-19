@@ -1,16 +1,8 @@
 package com.hendisantika.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -22,9 +14,12 @@ import java.io.Serializable;
  * Date: 14/09/21
  * Time: 06.35
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "invoice_lines")
 public class InvoiceLine implements Serializable {

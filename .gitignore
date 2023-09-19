@@ -30,3 +30,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## Docker
+/storage/
+/storage/

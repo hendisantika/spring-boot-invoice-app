@@ -1,10 +1,8 @@
 package com.hendisantika.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,9 +15,12 @@ import java.util.Date;
  * Date: 14/09/21
  * Time: 06.36
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "products")
 public class Product implements Serializable {
