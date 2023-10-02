@@ -48,7 +48,7 @@
 				</div>
 
 				<!-- TEMPLATE OF EACH PRODUCT LINE OF THE INVOICE -->
-				<table th:replace="invoices/template-items :: invoice-items"></table>
+				<table th:replace="~{invoices/template-items :: invoice-items}"></table>
 				<table class="table table-sm table-striped table-hover"
 					   id="loadProductItems">
 					<thead>

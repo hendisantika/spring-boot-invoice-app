@@ -26,7 +26,7 @@ public class InvoiceLine {
     private Long id;
     private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     /*
      * The @JoinColumn is not necessary here, as by default
      * JPA would create the column with the name "product_id"
