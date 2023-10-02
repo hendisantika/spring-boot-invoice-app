@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +24,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "invoices")
-public class Invoice implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
