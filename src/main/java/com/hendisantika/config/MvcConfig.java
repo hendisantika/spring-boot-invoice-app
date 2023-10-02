@@ -1,8 +1,6 @@
 package com.hendisantika.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +37,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		log.info("resourcesPath: " + resourcesPath);
 	}*/
 
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/error_403")
                 .setViewName("error_403");
@@ -53,11 +52,11 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     //This method takes care of saving, in this case in the session (although
-    //can be saved in cookies, etc) the "locale".
+    //can be saved in cookies, etc.) the "locale".
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("es", "ID"));
+        localeResolver.setDefaultLocale(Locale.of("es", "ID"));
         return localeResolver;
     }
 

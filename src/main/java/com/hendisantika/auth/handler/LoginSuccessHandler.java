@@ -32,7 +32,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         flashMap.put("success", "Welcome " + authentication.getName() + ", you have successfully logged in");
         flashMapManager.saveOutputFlashMap(flashMap, request, response);
-        if (authentication != null) {
+        if (authentication.getAuthorities() != null) {
             logger.info("The user " + authentication.getName() + " you have logged in successfully.");
         }
 

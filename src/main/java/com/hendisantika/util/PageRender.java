@@ -51,7 +51,7 @@ public class PageRender<T> {
         }
 
         for (int i = 0; i < until; i++) {
-            pages.add(new PageItem(from + i, currPage == from + i));
+            pages.add(new PageItem(from + i, currPage == from + i, pages));
         }
     }
 
