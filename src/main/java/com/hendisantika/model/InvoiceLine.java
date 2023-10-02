@@ -3,8 +3,6 @@ package com.hendisantika.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-boot-invoice-app
@@ -22,16 +20,13 @@ import java.io.Serializable;
 @ToString
 @Entity
 @Table(name = "invoice_lines")
-public class InvoiceLine implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class InvoiceLine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     /*
      * The @JoinColumn is not necessary here, as by default
      * JPA would create the column with the name "product_id"

@@ -12,22 +12,4 @@ import java.util.List;
  * Date: 15/09/21
  * Time: 05.20
  */
-public class PageItem {
-    private final int number;
-    private final boolean current;
-    private final List<PageItem> pages;
-
-    public PageItem(int number, boolean current) {
-        this.number = number;
-        this.current = current;
-        this.pages = new ArrayList<>();
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public boolean isCurrent() {
-        return current;
-    }
-}
+public record PageItem(int number, boolean current, List<PageItem> pages){}

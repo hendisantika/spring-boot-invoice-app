@@ -3,8 +3,6 @@ package com.hendisantika.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-boot-invoice-app
@@ -25,10 +23,7 @@ import java.io.Serializable;
 //The uniqueContraints parameter allows you to set the unique key constraints that must be
 //set when creating the table. In this case, a unique constraint will be created
 //made up of the user_id and authority fields
-public class Role implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

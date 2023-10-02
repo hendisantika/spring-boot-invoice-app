@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -28,10 +27,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "clients")
-public class Client implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
