@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/layout/layout :: head">
+<head th:replace="~{/layout/layout :: head}">
 </head>
 <body>
 
-<header th:replace="/layout/layout :: header"></header>
+<header th:replace="~{/layout/layout :: header}"></header>
 
 <div class="container py-4">
 	<div class="card bg-light text-dark">
@@ -77,8 +77,8 @@
 	</div>
 </div>
 
-<footer th:replace="/layout/layout :: footer"></footer>
+<footer th:replace="~{/layout/layout :: footer}"></footer>
 
-<script th:replace="invoices/js/autocomplete-products :: javascript"></script>
+<script th:replace="~{invoices/js/autocomplete-products :: javascript}"></script>
 </body>
 </html>
