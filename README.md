@@ -1,5 +1,12 @@
 # spring-boot-invoice-app
 
+![Java CI with Maven](https://github.com/hendisantika/spring-boot-invoice-app/actions/workflows/maven.yml/badge.svg)
+
+## Prerequisites
+- JDK 25
+- Maven 3.9+
+- Docker (for the MySQL database)
+
 ## Setup Database Using Docker
 ```shell
 docker run --rm \
@@ -28,3 +35,8 @@ mvn rewrite:run
 ```shell
 mvn clean install spring-boot:run
 ```
+
+## Continuous Integration
+GitHub Actions builds the project with Maven on every push and pull request to `main`, using JDK 25 (Temurin)
+and a MySQL 8 service container so the Spring Boot context can start during tests. See
+`.github/workflows/maven.yml`.
