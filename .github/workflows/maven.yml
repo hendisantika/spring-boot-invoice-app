@@ -19,12 +19,28 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_DATABASE: invoicedb
+          MYSQL_USER: naruto
+          MYSQL_PASSWORD: PNSJkxXvVNDAhePMuExTBuRR
+          MYSQL_ROOT_PASSWORD: PNSJkxXvVNDAhePMuExTBuRR
+        ports:
+          - 6603:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 21
+    - name: Set up JDK 25
       uses: actions/setup-java@v4
       with:
-        java-version: '21'
+        java-version: '25'
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
