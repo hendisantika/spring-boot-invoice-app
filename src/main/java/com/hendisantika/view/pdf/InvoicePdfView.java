@@ -2,18 +2,20 @@ package com.hendisantika.view.pdf;
 
 import com.hendisantika.model.Invoice;
 import com.hendisantika.model.InvoiceLine;
-import com.lowagie.text.Document;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import org.openpdf.text.Document;
+import org.openpdf.text.PageSize;
+import org.openpdf.text.Phrase;
+import org.openpdf.text.pdf.PdfPCell;
+import org.openpdf.text.pdf.PdfPTable;
+import org.openpdf.text.pdf.PdfWriter;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.document.AbstractPdfView;
+import org.springframework.web.servlet.view.AbstractView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.awt.*;
+import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 /**
@@ -26,12 +28,35 @@ import java.util.Map;
  * Time: 05.23
  */
 @Component("invoices/view")
-public class InvoicePdfView extends AbstractPdfView {
+public class InvoicePdfView extends AbstractView {
+
+    public InvoicePdfView() {
+        setContentType("application/pdf");
+    }
 
     @Override
-    protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter arg2,
-                                    HttpServletRequest request,
-                                    HttpServletResponse response) throws Exception {
+    protected boolean generatesDownloadContent() {
+        return true;
+    }
+
+    @Override
+    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+                                            HttpServletResponse response) throws Exception {
+
+        ByteArrayOutputStream baos = createTemporaryOutputStream();
+
+        Document document = new Document(PageSize.A4);
+        PdfWriter writer = PdfWriter.getInstance(document, baos);
+        writer.setViewerPreferences(PdfWriter.ALLOW_PRINTING | PdfWriter.PageLayoutSinglePage);
+
+        document.open();
+        buildPdfDocument(model, document);
+        document.close();
+
+        writeToResponse(response, baos);
+    }
+
+    private void buildPdfDocument(Map<String, Object> model, Document document) throws Exception {
 
         MessageSourceAccessor messages = getMessageSourceAccessor();
 
