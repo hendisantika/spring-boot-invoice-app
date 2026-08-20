@@ -2,6 +2,9 @@
 
 ![Java CI with Maven](https://github.com/hendisantika/spring-boot-invoice-app/actions/workflows/maven.yml/badge.svg)
 
+## Screenshot
+![Login page](docs/login-screenshot.jpg)
+
 ## Prerequisites
 - JDK 25
 - Maven 3.9+
